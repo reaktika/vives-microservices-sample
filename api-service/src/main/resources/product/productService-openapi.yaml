@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Furniture Public API Specification
+  description: >
+    This is the API for the Products microservice
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /products:
+    get:
+      description: Returns all products from the Vives Furniture Store
+      responses:
+        "200":
+          description: products response
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/product"
+        default:
+          description: unexpected error
+          schema:
+            $ref: "#/definitions/errorModel"
+    post:
+      description: Creates a new product
+      parameters:
+        - name: product
+          in: body
+          description: Product to add to the store
+          required: true
+          schema:
+            $ref: "#/definitions/product"
+      responses:
+        "200":
+          description: product response
+          schema:
+            $ref: "#/definitions/product"
+        default:
+          description: unexpected error
+          schema:
+            $ref: "#/definitions/errorModel"
+    put:
+      description: Updates a product
+      parameters:
+        - name: product
+          in: body
+          description: Product to update
+          required: true
+          schema:
+            $ref: "#/definitions/product"
+      responses:
+        "200":
+          description: product response
+          schema:
+            $ref: "#/definitions/product"
+        default:
+          description: unexpected error
+          schema:
+            $ref: "#/definitions/errorModel"
+  "/products/{id}":
+    get:
+      description: Returns a single product by id
+      parameters:
+        - name: id
+          in: path
+          description: Id of the product
+          required: true
+          type: string
+      responses:
+        "200":
+          description: product response
+          schema:
+            $ref: "#/definitions/product"
+        default:
+          description: unexpected error
+          schema:
+            $ref: "#/definitions/errorModel"
+definitions:
+  product:
+    $ref: product.yaml
+  errorModel:
+    $ref: error.json

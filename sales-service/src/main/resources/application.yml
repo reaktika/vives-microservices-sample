@@ -1,0 +1,6 @@
+server.port: 8070
+vives:
+  kafka:
+    bootstrapAddress: localhost:29092
+    consumer.groupId: vives
+    order.topic: orders

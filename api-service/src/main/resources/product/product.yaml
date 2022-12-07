@@ -1,0 +1,26 @@
+title: Product
+type: object
+required:
+  - name
+properties:
+  id:
+    type: integer
+    format: int64
+    description: globally unique id for a product
+  name:
+    type: string
+    minLength: 1
+    maxLength: 25
+    description: marketing name of a product
+  picture:
+    type: string
+    description: path the the location of the primary picture of this product
+  type:
+    type: string
+    enum:
+      - table
+      - chair
+      - lounge
+  unitPrice:
+    type: number
+    format: float
