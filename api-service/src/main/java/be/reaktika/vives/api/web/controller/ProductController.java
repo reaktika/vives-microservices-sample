@@ -1,4 +1,4 @@
-package be.reakika.vives.api.web.controller;
+package be.reaktika.vives.api.web.controller;
 
 import be.reaktika.vives.furniture.api.product.ProductsApiController;
 import be.reaktika.vives.furniture.api.product.ProductsApiDelegate;

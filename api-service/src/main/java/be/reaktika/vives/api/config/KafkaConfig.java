@@ -1,4 +1,4 @@
-package be.reakika.vives.api.config;
+package be.reaktika.vives.api.config;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;

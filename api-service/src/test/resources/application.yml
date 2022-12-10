@@ -1,0 +1,9 @@
+vives:
+  kafka:
+    bootstrapAddress: localhost:9092
+    consumer.groupId: testgroup
+    order.topic: test-orders
+  logistics-service:
+    url: http://localhost:8090/logistics
+  sales-service:
+    url: http://localhost:8070/sales

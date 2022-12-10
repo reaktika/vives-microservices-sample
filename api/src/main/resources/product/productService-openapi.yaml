@@ -8,9 +8,11 @@ consumes:
   - application/json
 produces:
   - application/json
+
 paths:
   /products:
     get:
+      operationId: getProducts
       description: Returns all products from the Vives Furniture Store
       responses:
         "200":
@@ -24,6 +26,7 @@ paths:
           schema:
             $ref: "#/definitions/errorModel"
     post:
+      operationId: createProduct
       description: Creates a new product
       parameters:
         - name: product
@@ -42,6 +45,7 @@ paths:
           schema:
             $ref: "#/definitions/errorModel"
     put:
+      operationId: updateProduct
       description: Updates a product
       parameters:
         - name: product
@@ -61,6 +65,7 @@ paths:
             $ref: "#/definitions/errorModel"
   "/products/{id}":
     get:
+      operationId: getProduct
       description: Returns a single product by id
       parameters:
         - name: id
@@ -77,8 +82,38 @@ paths:
           description: unexpected error
           schema:
             $ref: "#/definitions/errorModel"
+  /order:
+    post:
+      operationId: orderItem
+      description: place an order for a number of products
+      parameters:
+        - in: body
+          name: order
+          description: the content of the order
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/order"
+      responses:
+        200:
+          description: the order has been placed
+
 definitions:
   product:
     $ref: product.yaml
   errorModel:
     $ref: error.json
+  order:
+    type: object
+    required:
+      - productId
+      - quantity
+    properties:
+      productId:
+        type: integer
+        description: the id of the ordered item
+      quantity:
+        type: integer
+        description: the quantity of the ordered items
+

@@ -1,4 +1,4 @@
-package be.reakika.vives.api;
+package be.reaktika.vives.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

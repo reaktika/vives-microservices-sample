@@ -1,4 +1,4 @@
-package be.reakika.vives.api;
+package be.reaktika.vives.api;
 
 import be.reaktika.vives.service.sales.orders.model.ConfirmedOrder;
 import org.slf4j.Logger;

@@ -1,0 +1,6 @@
+vives:
+  shipmentservice.delayMs: 1000
+  kafka:
+    bootstrapAddress: localhost:9092
+    consumer.groupId: testgroup
+    order.topic: test-orders

@@ -1,8 +1,11 @@
-openapi.furnitureProductServiceAPISpecification.base-path: furniture-api
+openapi.furniturePublicAPISpecification.base-path: furniture-api
 server.port: 8080
 vives:
-  shipmentservice.delayMs: 1000
   kafka:
     bootstrapAddress: localhost:29092
     consumer.groupId: vives
     order.topic: orders
+  logistics-service:
+    url: http://localhost:8090/logistics
+  sales-service:
+    url: http://localhost:8070/sales

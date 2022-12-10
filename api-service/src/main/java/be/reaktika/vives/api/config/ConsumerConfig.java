@@ -1,4 +1,4 @@
-package be.reakika.vives.api.config;
+package be.reaktika.vives.api.config;
 
 import be.reaktika.vives.service.sales.orders.model.ConfirmedOrder;
 import org.apache.kafka.common.serialization.StringDeserializer;
