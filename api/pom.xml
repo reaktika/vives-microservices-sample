@@ -45,7 +45,7 @@
                         </goals>
                         <configuration>
                             <inputSpec>
-                                ${project.basedir}/src/main/resources/product/productService-openapi.yaml
+                                ${project.basedir}/src/main/resources/product/publicAPI-openapi.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
                             <apiPackage>be.reaktika.vives.furniture.api.product</apiPackage>
