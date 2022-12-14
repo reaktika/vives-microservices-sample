@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -32,11 +33,11 @@ public class OrderController {
     }
 
     @PostMapping(value = "order", consumes = "application/json")
-    public ResponseEntity<ConfirmedOrder> orderItem(RequestEntity<List<Order>> request) {
-        logger.info("controller received order {}",request);
+    public ResponseEntity<ConfirmedOrder> orderItem(RequestEntity<List<Order>> request, @RequestParam("requestId") String requestId) {
+        logger.info("controller received order {} with id {}",request, requestId);
         var orderedItems =  request.getBody().stream().map(this::mapOrderToOrderItem).toList();
         ConfirmedOrder confirmation = orderService.placeOrder(
-                new OrderRequest(101L, orderedItems));
+                new OrderRequest(101L, orderedItems, requestId));
         logger.info("controller done processing request");
         return ResponseEntity.ok(confirmation);
     }
@@ -46,11 +47,11 @@ public class OrderController {
     }
 
     @PostMapping(value = "order-async", consumes = "application/json")
-    public CompletableFuture<ResponseEntity<ConfirmedOrder>> orderItemAsync(RequestEntity<List<Order>> request) {
+    public CompletableFuture<ResponseEntity<ConfirmedOrder>> orderItemAsync(RequestEntity<List<Order>> request, @RequestParam("requestId") String requestId) {
         logger.info("controller received order {}",request);
         var orderedItems =  request.getBody().stream().map(this::mapOrderToOrderItem).toList();
         CompletableFuture<ResponseEntity<ConfirmedOrder>> futureResult = orderService.placeOrderAsync(
-                        new OrderRequest(101L, orderedItems))
+                        new OrderRequest(101L, orderedItems, requestId))
                 .thenApply(confirmation -> {
                     logger.info("controller receives confirmation");
                     return ResponseEntity.ok(confirmation);

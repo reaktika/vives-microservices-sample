@@ -28,9 +28,9 @@ public class SalesPort {
         this.objectMapper = objectMapper;
     }
 
-    public Mono<ConfirmedOrder> orderItems(List<Order> orderList) {
+    public Mono<ConfirmedOrder> orderItems(List<Order> orderList, String requestId) {
         return webClient.method(HttpMethod.POST)
-                .uri("/order")
+                .uri(uriBuilder -> uriBuilder.path("/order").queryParam("requestId",requestId).build())
                 .bodyValue(convertOrdersToBody(orderList))
                 .exchangeToMono(resp -> resp.bodyToMono(String.class))
                 .map(this::convertStringBodyToConfirmation);
