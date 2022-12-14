@@ -98,6 +98,8 @@ paths:
       responses:
         200:
           description: the order has been placed
+          schema:
+            $ref: "#/definitions/orderConfirmation"
 
 definitions:
   product:
@@ -112,8 +114,24 @@ definitions:
     properties:
       productId:
         type: integer
+        format: int64
         description: the id of the ordered item
       quantity:
         type: integer
         description: the quantity of the ordered items
+  orderConfirmation:
+    type: object
+    required:
+      - orderId
+      - order
+    properties:
+      orderId:
+        type: integer
+        format: int64
+        description: the id of the confirmed order
+      orders:
+        type: array
+        items:
+          $ref: "#/definitions/order"
+
 

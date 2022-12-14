@@ -27,6 +27,10 @@
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>be.reaktika.vives</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

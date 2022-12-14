@@ -4,7 +4,6 @@ import be.reaktika.vives.service.sales.orders.model.ConfirmedOrder;
 import be.reaktika.vives.service.sales.orders.model.OrderFailedException;
 import be.reaktika.vives.service.sales.orders.model.OrderRequest;
 import be.reaktika.vives.service.sales.ports.InventoryItemClaim;
-import be.reaktika.vives.service.sales.ports.InventoryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -4,6 +4,8 @@ import be.reaktika.vives.service.sales.OrderService;
 import be.reaktika.vives.service.sales.orders.model.ConfirmedOrder;
 import be.reaktika.vives.service.sales.orders.model.OrderItem;
 import be.reaktika.vives.service.sales.orders.model.OrderRequest;
+import be.reaktika.vives.furniture.api.model.product.Order;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.RequestEntity;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Controller
@@ -31,23 +32,25 @@ public class OrderController {
     }
 
     @PostMapping(value = "order", consumes = "application/json")
-    public ResponseEntity<ConfirmedOrder> orderItem(RequestEntity request) {
+    public ResponseEntity<ConfirmedOrder> orderItem(RequestEntity<List<Order>> request) {
         logger.info("controller received order {}",request);
+        var orderedItems =  request.getBody().stream().map(this::mapOrderToOrderItem).toList();
         ConfirmedOrder confirmation = orderService.placeOrder(
-                new OrderRequest(101L, List.of(
-                        new OrderItem(1L, 10),
-                        new OrderItem(2L, 5))));
+                new OrderRequest(101L, orderedItems));
         logger.info("controller done processing request");
         return ResponseEntity.ok(confirmation);
     }
 
+    private OrderItem mapOrderToOrderItem(Order order) {
+        return new OrderItem(order.getProductId(), order.getQuantity());
+    }
+
     @PostMapping(value = "order-async", consumes = "application/json")
-    public CompletableFuture<ResponseEntity<ConfirmedOrder>> orderItemAsync(RequestEntity request) {
+    public CompletableFuture<ResponseEntity<ConfirmedOrder>> orderItemAsync(RequestEntity<List<Order>> request) {
         logger.info("controller received order {}",request);
+        var orderedItems =  request.getBody().stream().map(this::mapOrderToOrderItem).toList();
         CompletableFuture<ResponseEntity<ConfirmedOrder>> futureResult = orderService.placeOrderAsync(
-                        new OrderRequest(101L, List.of(
-                                new OrderItem(1L, 10),
-                                new OrderItem(2L, 5))))
+                        new OrderRequest(101L, orderedItems))
                 .thenApply(confirmation -> {
                     logger.info("controller receives confirmation");
                     return ResponseEntity.ok(confirmation);
