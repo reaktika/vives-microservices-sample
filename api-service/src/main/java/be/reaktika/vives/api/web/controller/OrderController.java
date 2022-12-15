@@ -37,13 +37,15 @@ public class OrderController extends OrderApiController {
     public CompletableFuture<ResponseEntity<OrderConfirmation>> orderItem(List<Order> order) {
         UUID uuid = UUID.randomUUID();
         logger.info("Received order, forwarding to the sales service, using uuid " + uuid);
-        sales.orderItems(order, uuid.toString()).block();
         CompletableFuture<ResponseEntity<OrderConfirmation>> futureResponse = new CompletableFuture<>();
+        sales.orderItems(order, uuid.toString()).subscribe();
         logger.info("registering callback");
         orderConsumerService.registerRequest(uuid, confirmedOrder -> {
             logger.info("executing callback");
             futureResponse.complete(ResponseEntity.ok(mapToResponse(confirmedOrder)));
         });
+
+
         return futureResponse;
     }
 
