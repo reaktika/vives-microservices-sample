@@ -5,10 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.NativeWebRequest;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -23,7 +22,9 @@ public class OrderConsumerService {
     @KafkaListener(topics = "${vives.kafka.order.topic}", groupId = "${vives.kafka.consumer.groupId}")
     public void processConfirmedOrder(ConfirmedOrder order) {
         logger.info("topicListener received confirmed {}", order );
-        inflightRequets.getOrDefault(order.request().requestId(), f -> {}).accept(order);
+        Optional.ofNullable(inflightRequets.remove(order.request().requestId()))
+                .ifPresentOrElse(callback -> callback.accept(order),
+                        () -> logger.info("received confirmed order for unknown request {}", order.request().requestId()));
     }
 
     public void registerRequest(UUID uuid, Consumer<ConfirmedOrder> confirmationCallback) {
