@@ -45,13 +45,13 @@ Request a list of products:
 curl http://localhost:8080/furniture-api/products
 ```
 The `api-service` will forward the request to the `logistics-service`.
-Implementation: `be.reaktika.vives.api.web.controller.ProductApiDelegate`
+Implementation: `be.reaktika.vives.api.web.controller.ProductController`
 
 Place an order:
 ```
 curl -X POST -H 'Content-type: application/json' -d '[{"productId":100, "quantity":5}]' http://localhost:8080/furniture-api/order
 ```
-The order-request will be forwarded to the `sales-service` (`be.reaktika.vives.api.web.controller.OrderApiDelegate`), where it will processed.
-The result of that will be published to the `orders` topic, but will also be contained in the response.
-(`be.reaktika.vives.service.sales.OrderService`).
+The order-request will be forwarded to the `sales-service` (`be.reaktika.vives.api.web.controller.OrderApiController`), where it will processed.
+The result of that processing will be published to the `orders` topic (`be.reaktika.vives.service.sales.OrderService`).
+The `be.reaktika.vives.api.web.controller.OrderController` will produce a response when the appropriate `ConfirmetOrder` is consumed from the topic (`be.reaktika.vives.api.OrderConsumerService`).
 
